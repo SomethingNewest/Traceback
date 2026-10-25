@@ -359,3 +359,67 @@ test('comfortable spiral reports explain tolerance and compare only the same ver
   assert.match(html, /game version 5\): Line accuracy/);
   assert.match(html, /Small wobbles are allowed/);
 });
+
+test('guide-following spiral reports separate new scores from every earlier version', () => {
+  let store = fixture();
+  const { seriesId, comparisonKey, ...seed } = store.results.find(
+    (result) => result.id === 'this-week',
+  );
+  const addSpiral = (id, protocolVersion, accuracyPct, createdAt = seed.createdAt) => {
+    store = appendCompletedResult(
+      store,
+      {
+        ...seed,
+        id,
+        activityId: 'trace',
+        protocolVersion,
+        createdAt,
+        config: { pathId: `spiral-v${protocolVersion}`, targetSizeMode: 'standard' },
+        metrics: { accuracyPct, meanDistancePctWidth: 1, coveragePct: 12 },
+      },
+      { createId: () => `series-${id}` },
+    );
+  };
+  for (const version of [1, 2, 3, 4, 5]) addSpiral(`old-v${version}`, version, 80);
+  addSpiral('guide-first', 6, 65, store.results.find((result) => result.id === 'old').createdAt);
+  addSpiral('guide-next', 6, 85);
+
+  const results = selectReportResults(store, {
+    weekStart: '2026-10-12',
+    activityId: 'trace',
+  }).results;
+  const rows = reportRows(store, results).filter((row) => row.key === 'accuracyPct');
+  const latest = rows.find((row) => row.result.id === 'guide-next');
+  assert.equal(latest.baseline.id, 'guide-first');
+  assert.equal(latest.baselineValue, 65);
+  assert.equal(latest.absoluteChange, 20);
+  assert.match(latest.metadata.description, /Cutting across turns lowers accuracy/);
+  assert.match(latest.metadata.description, /Small wobbles are allowed/);
+  assert.match(latest.metadata.description, /finish after a short section/);
+  assert.match(latest.metadata.description, /do not need to reach End/);
+  const previous = rows.find((row) => row.result.id === 'old-v5');
+  assert.equal(previous.baseline.id, 'old-v5');
+  assert.match(previous.metadata.description, /full credit inside the guide/);
+  assert.doesNotMatch(previous.metadata.description, /Cutting across turns/);
+
+  const model = buildReportModel(store, results);
+  assert.equal(model.groups.length, 6);
+  const guide = model.groups.find((group) => group.protocolVersion === 6);
+  assert.match(
+    guide.metrics.find((metric) => metric.key === 'accuracyPct').description,
+    /Cutting across turns lowers accuracy/,
+  );
+  const comfortable = model.groups.find((group) => group.protocolVersion === 5);
+  assert.doesNotMatch(
+    comfortable.metrics.find((metric) => metric.key === 'accuracyPct').description,
+    /Cutting across turns/,
+  );
+  const csv = exportCSV(store, results);
+  assert.match(csv, /"guide-next","trace",[^\r\n]+"guide-first"/);
+  const html = printableReportHTML(store, { activityId: 'trace', weekStart: '2026-10-12' });
+  for (const version of [1, 2, 3, 4, 5, 6]) {
+    assert.ok(html.includes(`game version ${version}): Line accuracy`));
+  }
+  assert.match(html, /Cutting across turns lowers accuracy/);
+  assert.match(html, /full credit inside the guide/);
+});

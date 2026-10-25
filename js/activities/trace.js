@@ -1,5 +1,5 @@
 import { SPIRAL_POINTS, isPrimaryActivation } from './protocol.js';
-import { scoreTraceComfort } from '../metrics/scoring.js';
+import { scoreTraceFollowing } from '../metrics/scoring.js';
 import { bindInputReset } from './extra-protocol.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -180,7 +180,7 @@ export function mountTrace(scope) {
 
       let result;
       try {
-        result = scoreTraceComfort(strokes, SPIRAL_POINTS, { durationMs: durationMs });
+        result = scoreTraceFollowing(strokes, SPIRAL_POINTS, { durationMs: durationMs });
       } catch (error) {
         finished = true;
         scope.interrupt(error.message);

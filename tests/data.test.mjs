@@ -341,9 +341,46 @@ test('comfortable spiral scores start their own baseline and leave all earlier v
   );
 });
 
+test('guide-following spiral scores preserve versions 1–5 and use a new starting point', () => {
+  const spiral = (id, protocolVersion, accuracyPct) =>
+    result(id, {
+      activityId: 'trace',
+      protocolVersion,
+      config: { pathId: `spiral-v${protocolVersion}`, targetSizeMode: 'standard' },
+      metrics: { accuracyPct, meanDistancePctWidth: 1, coveragePct: 12 },
+    });
+  let value = store();
+  for (const version of [1, 2, 3, 4, 5]) {
+    value = append(value, spiral(`old-v${version}`, version, 50 + version));
+  }
+  const oldResults = structuredClone(value.results);
+  const oldBaselines = structuredClone(value.baselineSeries);
+
+  value = append(value, spiral('guide-first', 6, 65));
+  value = append(value, spiral('guide-next', 6, 85));
+  const restored = validateStore(JSON.parse(serializeStore(value)));
+  assert.deepEqual(restored.results.slice(0, 5), oldResults);
+  assert.deepEqual(restored.baselineSeries.slice(0, 5), oldBaselines);
+  assert.equal(restored.baselineSeries.length, 6);
+  assert.equal(restored.baselineSeries[5].baselineResultId, 'guide-first');
+  assert.equal(restored.results[5].seriesId, restored.results[6].seriesId);
+  assert.equal(restored.results[6].config.pathId, 'spiral-v6');
+  for (const previous of restored.results.slice(0, 5)) {
+    assert.notEqual(previous.comparisonKey, restored.results[5].comparisonKey);
+  }
+  assert.throws(
+    () =>
+      append(value, {
+        ...spiral('wrong-v6-path', 6, 85),
+        config: { pathId: 'spiral-v5', targetSizeMode: 'standard' },
+      }),
+    /path/,
+  );
+});
+
 test('unknown versions and mismatched spiral paths cannot masquerade as another game', () => {
   for (const [activityId, protocolVersion] of [
-    ['trace', 6],
+    ['trace', 7],
     ['tap', 3],
     ['aim', 1],
     ['aim', 4],

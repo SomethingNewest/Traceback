@@ -89,7 +89,7 @@ export function metricMetadata(key, activityId, protocolVersion) {
   if (key === 'accuracyPct') {
     // a saved score keeps the meaning it had when the game was played,
     // so older trace versions keep their old descriptions
-    if (activityId === 'trace' && [1, 2, 3, 4, 5].includes(protocolVersion)) {
+    if (activityId === 'trace' && [1, 2, 3, 4, 5, 6].includes(protocolVersion)) {
       return {
         key: key,
         label: 'Line accuracy',

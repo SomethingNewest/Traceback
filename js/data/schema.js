@@ -26,7 +26,7 @@ const FIELD_NAME = /^[a-z][A-Za-z0-9]{0,59}$/;
 // which protocol versions we still accept for each game.
 // older saved games keep the setup and starting point they had
 const PROTOCOLS = {
-  trace: [1, 2, 3, 4, 5],
+  trace: [1, 2, 3, 4, 5, 6],
   tap: [1, 2],
   aim: [2, 3],
   hold: [1, 2],

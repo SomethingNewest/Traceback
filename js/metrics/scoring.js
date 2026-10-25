@@ -373,7 +373,67 @@ export function scoreTraceComfort(strokes, target, config = {}) {
   return measureTrace(strokes, target, config, true);
 }
 
-function measureTrace(strokes, target, config, comfortable) {
+// Protocol 6 also checks the direction of the curve. Crossing a nearby turn
+// should not earn the same credit as following it. A short window along the
+// drawn line smooths small wobbles; either tracing direction is allowed.
+export function scoreTraceFollowing(strokes, target, config = {}) {
+  return measureTrace(strokes, target, config, true, true);
+}
+
+const TRACE_DIRECTION_WINDOW = 0.03;
+// Full direction credit within 15 degrees, falling to zero at 45 degrees.
+const TRACE_FULL_DIRECTION_COS = Math.cos(Math.PI / 12);
+const TRACE_ZERO_DIRECTION_COS = Math.cos(Math.PI / 4);
+
+// Matching endpoints can share direction context, but real lift gaps stay separate.
+function joinedTraceStrokes(strokes) {
+  const joined = [];
+  for (const stroke of strokes) {
+    // Dots have no line length and must not change the smoothing context.
+    if (!stroke.some((point) => point.x !== stroke[0].x || point.y !== stroke[0].y)) continue;
+    const previous = joined[joined.length - 1];
+    const end = previous?.[previous.length - 1];
+    if (end && end.x === stroke[0].x && end.y === stroke[0].y) {
+      for (const point of stroke) previous.push(point);
+    } else {
+      joined.push(stroke.slice());
+    }
+  }
+  return joined;
+}
+
+function pointAtArc(stroke, arcs, arc) {
+  if (arc <= 0) return stroke[0];
+  if (arc >= arcs[arcs.length - 1]) return stroke[stroke.length - 1];
+  let low = 1;
+  let high = arcs.length - 1;
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    if (arcs[middle] <= arc) low = middle + 1;
+    else high = middle;
+  }
+  const from = stroke[low - 1];
+  const to = stroke[low];
+  const fraction = (arc - arcs[low - 1]) / (arcs[low] - arcs[low - 1]);
+  return { x: from.x + (to.x - from.x) * fraction, y: from.y + (to.y - from.y) * fraction };
+}
+
+function traceDirection(stroke, arcs, arc, from, to) {
+  const before = pointAtArc(stroke, arcs, arc - TRACE_DIRECTION_WINDOW);
+  const after = pointAtArc(stroke, arcs, arc + TRACE_DIRECTION_WINDOW);
+  let dx = after.x - before.x;
+  let dy = after.y - before.y;
+  let length = Math.hypot(dx, dy);
+  if (length < 1e-12) {
+    // A reversal or closed stroke can have coincident window endpoints.
+    dx = to.x - from.x;
+    dy = to.y - from.y;
+    length = Math.hypot(dx, dy);
+  }
+  return { x: dx / length, y: dy / length };
+}
+
+function measureTrace(strokes, target, config, comfortable, followCurve = false) {
   let inputOk =
     Array.isArray(strokes) &&
     Array.isArray(target) &&
@@ -442,7 +502,14 @@ function measureTrace(strokes, target, config, comfortable) {
   let distanceSum = 0;
   const bins = new Set();
 
-  for (const stroke of strokes) {
+  const measuredStrokes = followCurve ? joinedTraceStrokes(strokes) : strokes;
+  for (const stroke of measuredStrokes) {
+    const arcs = [0];
+    if (followCurve) {
+      for (let i = 1; i < stroke.length; i++) {
+        arcs.push(arcs[arcs.length - 1] + distance(stroke[i - 1], stroke[i]));
+      }
+    }
     for (let i = 1; i < stroke.length; i++) {
       const a = stroke[i - 1];
       const b = stroke[i];
@@ -459,6 +526,7 @@ function measureTrace(strokes, target, config, comfortable) {
 
         let nearestSquared = Infinity;
         let arc = 0;
+        let tangent = null;
         for (const segment of segments) {
           // skip a segment only if its box is already further away than the best so far
           const boxX = Math.max(segment.minX - x, 0, x - segment.maxX);
@@ -476,6 +544,7 @@ function measureTrace(strokes, target, config, comfortable) {
           if (squared < nearestSquared) {
             nearestSquared = squared;
             arc = segment.arc + part * segment.length;
+            if (followCurve) tangent = segment;
           }
         }
 
@@ -485,9 +554,24 @@ function measureTrace(strokes, target, config, comfortable) {
           nearest = 0;
         }
 
-        const credit = comfortable
+        let credit = comfortable
           ? Math.max(0, Math.min(1, 1 - (nearest - radius) / (SPIRAL_COMFORT_DISTANCE - radius)))
           : Math.max(0, 1 - nearest / radius);
+        if (followCurve && credit > 0) {
+          const direction = traceDirection(stroke, arcs, arcs[i - 1] + fraction * length, a, b);
+          const alignment = Math.abs(
+            (direction.x * tangent.dx + direction.y * tangent.dy) / tangent.length,
+          );
+          const directionCredit = Math.max(
+            0,
+            Math.min(
+              1,
+              (alignment - TRACE_ZERO_DIRECTION_COS) /
+                (TRACE_FULL_DIRECTION_COS - TRACE_ZERO_DIRECTION_COS),
+            ),
+          );
+          credit *= directionCredit;
+        }
         earnedLength += credit * weight;
         measuredLength += weight;
         distanceSum += nearest * weight;

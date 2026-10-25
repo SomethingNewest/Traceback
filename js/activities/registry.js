@@ -9,16 +9,17 @@ const activityList = [
     status: 'ready',
     practice: true,
     practiceInstruction:
-      'Follow the spiral guide. Small wobbles are okay. Select Finish whenever you are ready.',
+      'Follow the curve of the spiral. Small wobbles are okay. Select Finish whenever you are ready.',
     metricKey: 'meanDistancePctWidth',
     accuracyLabel: 'Line accuracy',
-    accuracyDescription: traceAccuracyDescription(5),
+    accuracyDescription: traceAccuracyDescription(6),
     instructions: [
       'Begin near the Start dot in the center.',
       'Hold down and follow the dotted middle of the guide. You can lift and continue.',
+      'Follow the curve. Cutting across turns lowers accuracy.',
       'Select Finish when you are ready. You do not need to reach End.',
     ],
-    protocolVersion: 5,
+    protocolVersion: 6,
     metricVersion: 2,
   },
   {
@@ -153,6 +154,9 @@ export function activityById(id) {
 }
 
 export function traceAccuracyDescription(protocolVersion) {
+  if (protocolVersion === 6) {
+    return 'Small wobbles are allowed. Follow the curve of the guide. Cutting across turns lowers accuracy. Every part you draw counts by its length. You can finish after a short section; you do not need to reach End.';
+  }
   if (protocolVersion === 5) {
     return 'Small wobbles are allowed. Your line earns full credit inside the guide. Outside the guide, credit falls gradually as you move farther away. Every part you draw counts by its length. You can finish after a short section.';
   }

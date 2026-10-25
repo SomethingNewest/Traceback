@@ -7,6 +7,7 @@ import {
   scoreTraceAlignment,
   scoreTracePrecision,
   scoreTraceComfort,
+  scoreTraceFollowing,
   scoreTap,
   scoreAim,
   scoreDrag,
@@ -379,6 +380,156 @@ test('comfortable tracing gives dots no weight and rejects empty or invalid draw
         ],
         target,
       ),
+    /too long/,
+  );
+});
+
+test('curve following gives a low score to the real spiral Start-to-End shortcut', () => {
+  const from = SPIRAL_POINTS[0];
+  const to = SPIRAL_POINTS[SPIRAL_POINTS.length - 1];
+  const direct = [[from, to]];
+  const historical = scoreTraceComfort(direct, SPIRAL_POINTS);
+  assert.ok(historical.metrics.accuracyPct > 40 && historical.metrics.accuracyPct < 50);
+  const dense = Array.from({ length: 601 }, (_, i) => ({
+    x: from.x + ((to.x - from.x) * i) / 600,
+    y: from.y + ((to.y - from.y) * i) / 600,
+    t: i * 500,
+  }));
+  for (const stroke of [direct[0], dense, dense.slice().reverse()]) {
+    const result = scoreTraceFollowing([stroke], SPIRAL_POINTS);
+    assert.equal(result.validity.valid, true);
+    assert.ok(result.metrics.accuracyPct < 2);
+    assert.ok(result.metrics.meanDistancePctWidth > 0);
+  }
+  const result = scoreTraceFollowing(direct, SPIRAL_POINTS);
+  assert.equal(result.validity.startedAtStart, true);
+  assert.equal(result.validity.reachedEnd, true);
+});
+
+test('curve following accepts full, short and reversed genuine spiral sections', () => {
+  for (const stroke of [
+    SPIRAL_POINTS,
+    SPIRAL_POINTS.slice(0, 50),
+    SPIRAL_POINTS.slice(450, 470),
+    SPIRAL_POINTS.slice(900, 950).reverse(),
+  ]) {
+    const result = scoreTraceFollowing([stroke], SPIRAL_POINTS);
+    assert.equal(result.validity.valid, true);
+    assert.ok(result.metrics.accuracyPct > 99.9);
+  }
+  const partial = scoreTraceFollowing([SPIRAL_POINTS.slice(450, 470)], SPIRAL_POINTS);
+  assert.equal(partial.validity.startedAtStart, false);
+  assert.equal(partial.validity.reachedEnd, false);
+  assert.ok(partial.metrics.coveragePct < 10);
+});
+
+function wobblySpiral(amplitude) {
+  return SPIRAL_POINTS.slice(200, 600).map((point, i) => {
+    const before = SPIRAL_POINTS[199 + i];
+    const after = SPIRAL_POINTS[201 + i];
+    const dx = after.x - before.x;
+    const dy = after.y - before.y;
+    const offset = amplitude * Math.sin((i * Math.PI * 2) / 10);
+    const length = Math.hypot(dx, dy);
+    return { x: point.x - (dy / length) * offset, y: point.y + (dx / length) * offset };
+  });
+}
+
+test('curve following allows small frequent wobbles instead of judging each tiny movement', () => {
+  for (const amplitude of [0.004, 0.007]) {
+    const result = scoreTraceFollowing([wobblySpiral(amplitude)], SPIRAL_POINTS);
+    assert.equal(result.validity.valid, true);
+    assert.ok(result.metrics.accuracyPct > 95);
+  }
+});
+
+test('curve accuracy is stable across repeated events and lifts along the same drawn line', () => {
+  const stroke = wobblySpiral(0.004);
+  const unchanged = structuredClone(stroke);
+  const original = scoreTraceFollowing([stroke], SPIRAL_POINTS);
+  const fragments = [];
+  for (let i = 0; i < stroke.length - 1; i += 2) {
+    fragments.push(stroke.slice(i, i + 3));
+  }
+  const withDots = fragments.flatMap((fragment) => [[{ x: 0, y: 0 }], [], fragment]);
+  const denser = stroke.flatMap((point, i) => {
+    if (i === stroke.length - 1) return [point];
+    const next = stroke[i + 1];
+    return [point, { x: (point.x + next.x) / 2, y: (point.y + next.y) / 2 }];
+  });
+  for (const strokes of [
+    [stroke.flatMap((point) => [point, point])],
+    fragments,
+    withDots,
+    [denser],
+  ]) {
+    const result = scoreTraceFollowing(strokes, SPIRAL_POINTS);
+    assert.ok(Math.abs(result.metrics.accuracyPct - original.metrics.accuracyPct) < 0.05);
+    assert.ok(
+      Math.abs(result.metrics.meanDistancePctWidth - original.metrics.meanDistancePctWidth) <
+        0.0001,
+    );
+  }
+  assert.deepEqual(stroke, unchanged);
+});
+
+test('curve following never fills gaps or gives dots the weight of a drawn line', () => {
+  const target = [
+    { x: 0, y: 0.5 },
+    { x: 1, y: 0.5 },
+  ];
+  const strokes = [
+    [
+      { x: 0.1, y: 0.5 },
+      { x: 0.2, y: 0.5 },
+    ],
+    [
+      { x: 0.7, y: 0.6 },
+      { x: 0.8, y: 0.6 },
+    ],
+  ];
+  const dots = Array.from({ length: 100 }, () => [{ x: 0.4, y: 0.5 }]);
+  for (const input of [strokes, [...strokes, ...dots]]) {
+    const result = scoreTraceFollowing(input, target);
+    assert.ok(Math.abs(result.metrics.accuracyPct - 50) < 1e-9);
+    assert.ok(Math.abs(result.metrics.meanDistancePctWidth - 5) < 1e-9);
+  }
+  const backtrack = scoreTraceFollowing(
+    [
+      [
+        { x: 0.1, y: 0.5 },
+        { x: 0.12, y: 0.5 },
+        { x: 0.1, y: 0.5 },
+      ],
+    ],
+    target,
+  );
+  assert.equal(backtrack.metrics.accuracyPct, 100);
+});
+
+test('curve following rejects empty, invalid and oversized drawings before measuring them', () => {
+  const target = SPIRAL_POINTS;
+  for (const strokes of [[], [[]], [[target[0]]], [[target[0]], [target.at(-1)]]]) {
+    const result = scoreTraceFollowing(strokes, target);
+    assert.equal(result.validity.valid, false);
+    assert.equal(result.metrics.accuracyPct, null);
+  }
+  assert.throws(() => scoreTraceFollowing([[{ x: NaN, y: 0 }]], target), /finite/);
+  assert.throws(
+    () =>
+      scoreTraceFollowing(
+        [
+          [
+            { x: 0, y: 0 },
+            { x: 51, y: 0 },
+          ],
+        ],
+        target,
+      ),
+    /too long/,
+  );
+  assert.throws(
+    () => scoreTraceFollowing([Array.from({ length: 100001 }, () => target[0])], target),
     /too long/,
   );
 });
