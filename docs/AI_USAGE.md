@@ -1,6 +1,26 @@
-# AI contributions
+# Contributions
 
-Codex assisted with both the interface and application logic. The project owner supplied rewritten application modules, which were integrated and reviewed with AI assistance. The table describes the affected files and parts; it does not attribute all code in a mixed-contribution file to one author.
+The project owner supplied rewritten versions of 24 application modules and directed the app's features and design. Codex assisted with both the interface and application logic, including initial implementations, integration and later fixes. Shared files can include contributions from both.
+
+## Project owner contributions
+
+| Files or area                                                                                      | Project owner contributions                                                                                             |
+| -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Project direction                                                                                  | Defined the app's goals, requested features and design changes, and reported problems with game behavior and usability. |
+| `js/app.js`                                                                                        | Rewrote the application controller connecting games, saved results, routines, settings and exports.                     |
+| `js/activities/trace.js`, `js/activities/tap.js`, `js/activities/drag.js`, `js/activities/hold.js` | Provided rewritten interaction logic for Spiral Trace, Target Tap, Drag & Place and Steady Ring.                        |
+| `js/activities/choice.js`, `js/activities/memory.js`, `js/activities/sequence.js`                  | Provided rewritten game logic for Shape Pick, Match Pairs and Number Trail.                                             |
+| `js/activities/runner.js`                                                                          | Rewrote the shared game lifecycle and cleanup logic.                                                                    |
+| `js/activities/protocol.js`, `js/activities/extra-protocol.js`, `js/activities/registry.js`        | Rewrote shared game layouts, timing, interaction helpers, setup definitions and game metadata.                          |
+| `js/metrics/scoring.js`, `js/metrics/game-scores.js`                                               | Rewrote score calculations, measurement validation and metric comparisons.                                              |
+| `js/data/schema.js`, `js/data/storage.js`, `js/data/history-integrity.js`                          | Rewrote saved-data validation, browser storage operations and history integrity checks.                                 |
+| `js/data/baselines.js`, `js/data/profiles.js`, `js/data/trends.js`                                 | Rewrote starting-point management, comparison profiles and result trend calculations.                                   |
+| `js/data/routines.js`                                                                              | Rewrote routine plans, session progress and completion tracking.                                                        |
+| `js/export/csv.js`, `js/export/report-model.js`, `js/export/report.js`                             | Rewrote CSV export, report data preparation and report calculations.                                                    |
+
+These rows describe the supplied rewrites. Retained code and later AI-assisted changes in those files are described below.
+
+## AI contributions
 
 | Files                                                                                                   | Parts created or edited with AI assistance                                                                                                                                                                                                                                                      |
 | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -18,7 +38,5 @@ Codex assisted with both the interface and application logic. The project owner 
 | `js/export/csv.js`, `report-model.js`, `report.js`                                                      | Initial export and report calculations; supplied rewrite integration and assisted review; protocol-aware measurement descriptions.                                                                                                                                                              |
 | `js/export/report-charts.js`, `report-layout.js`, `report-style.js`, `print.js`                         | Report charts, document layout, print styles, sandboxed print-frame lifecycle and cleanup.                                                                                                                                                                                                      |
 | `tests/*.test.mjs`, `scripts/*.mjs`, development configuration and documentation                        | Automated tests, source checks, preview server, formatting setup and technical documentation.                                                                                                                                                                                                   |
-
-The supplied rewrite covered `js/app.js`, both files in `js/metrics/`, the game and protocol files in `js/activities/`, all files in `js/data/`, and `js/export/csv.js`, `report-model.js` and `report.js`. Those files can contain the supplied rewrite alongside retained or later AI-assisted code.
 
 This is a contribution summary, not a prompt or conversation archive. Private prompts, personal details and development transcripts are not included. AI-assisted testing and review do not establish that the app is free of bugs, clinically validated or fully accessible.

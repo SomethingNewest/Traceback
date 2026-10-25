@@ -45,7 +45,7 @@ Each project path uses a separate storage key to avoid mixing results accidental
 
 Settings also provides JSON backup, restore and deletion. Backups include the complete saved store, including notes. CSV, HTML and PDF files are readable copies too, so the app asks before creating them. Deleting browser data cannot delete downloaded files or copies on other devices. Browser storage can be cleared or lost; keep any wanted backup somewhere private.
 
-See [Security and privacy](docs/SECURITY.md) for details and [AI contributions](docs/AI_USAGE.md) for the file-level contribution summary.
+See [Security and privacy](docs/SECURITY.md) for details and [Project owner and AI contributions](docs/AI_USAGE.md) for the file-level contribution summary.
 
 ## Source layout
 
