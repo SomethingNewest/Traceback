@@ -456,16 +456,13 @@ function bindSettings() {
     if (!confirmed) return;
     if (!form.isConnected) return;
 
-    // keep the consent the user already gave
-    settings = Object.assign({}, DEFAULT_SETTINGS, { activityConsent: settings.activityConsent });
+    settings = Object.assign({}, DEFAULT_SETTINGS);
     applySettings(settings);
 
     let message = 'Settings reset.';
     try {
       await save(function (current) {
-        current.settings = Object.assign({}, DEFAULT_SETTINGS, {
-          activityConsent: current.settings.activityConsent,
-        });
+        current.settings = Object.assign({}, DEFAULT_SETTINGS);
         return current;
       });
     } catch {
@@ -605,8 +602,6 @@ function bindActivity(activityId) {
   const area = main.querySelector('#practice-area');
   const startButton = main.querySelector('#start-practice');
   const practiceButton = main.querySelector('#start-unscored');
-  const consent = main.querySelector('#activity-consent');
-  const consentRow = main.querySelector('#activity-consent-row');
 
   let runner = null;
   let active = false;
@@ -678,12 +673,6 @@ function bindActivity(activityId) {
     form.elements.deviceLabel.value = savedDevice.label;
   } else {
     form.elements.deviceLabel.value = '';
-  }
-  if (consent) {
-    consent.checked = Boolean(settings.activityConsent);
-  }
-  if (consentRow) {
-    consentRow.hidden = Boolean(settings.activityConsent);
   }
 
   const handLabels = {
@@ -963,16 +952,6 @@ function bindActivity(activityId) {
     if (active || disposed) return;
     pendingResult = null;
 
-    const consentChecked = Boolean(consent) && consent.checked;
-    if (!practice && !settings.activityConsent && !consentChecked) {
-      if (consent) {
-        consent.focus();
-      }
-      main.querySelector('#setup-status').textContent =
-        'Check the score note before your first game, or choose Practice.';
-      return;
-    }
-
     active = true;
 
     // remember which routine step this game was started for (practice never counts)
@@ -997,25 +976,6 @@ function bindActivity(activityId) {
       await remember(snapshot);
     } catch {
       // the game can still run, and we offer a download if saving fails later
-    }
-    if (disposed) {
-      active = false;
-      return;
-    }
-
-    if (!practice && !settings.activityConsent) {
-      settings.activityConsent = true;
-      if (consentRow) {
-        consentRow.hidden = true;
-      }
-      try {
-        await save(function (current) {
-          current.settings.activityConsent = true;
-          return current;
-        });
-      } catch {
-        // still counts for this visit
-      }
     }
     if (disposed) {
       active = false;

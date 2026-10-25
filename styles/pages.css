@@ -151,13 +151,6 @@
   width: 100%;
   height: 100%;
 }
-.consent-row {
-  margin-top: 24px;
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  font-size: 0.85rem;
-}
 .start-actions {
   margin-top: 26px;
 }
@@ -627,12 +620,6 @@
   }
   .start-actions .button {
     flex: 1 1 200px;
-  }
-  .consent-row {
-    align-items: flex-start;
-  }
-  .consent-row input {
-    margin-top: 2px;
   }
   .practice-toolbar h2 {
     font-size: 1.4rem;

@@ -14,7 +14,6 @@ export function activityPage(id, settings, capabilities) {
   return `<div class="page-intro activity-intro"><p class="back-link"><a href="#/activities">← All games</a></p><h1>${activity.name}</h1><p>${activity.description}</p></div>
   <section id="ready-panel" class="card activity-ready">
     <div class="ready-overview"><div><span class="badge badge-violet">${activity.duration}</span><h2>How to play</h2>${settings.simplifiedInstructions ? `<p class="start-instruction">${activity.practiceInstruction}</p>` : `<ol class="ready-steps">${activity.instructions.map((line) => `<li>${line}</li>`).join('')}</ol>`}<p class="ready-stop">You can stop at any time.</p></div><div class="ready-illustration" data-activity="${id}">${activityIllustration(id)}</div></div>
-    <label class="check-row consent-row" id="activity-consent-row"><input id="activity-consent" type="checkbox"><span>Scores describe this game, not recovery.</span></label>
     <div class="actions start-actions"><button id="start-practice" class="button" type="button" ${supported ? '' : 'disabled'}>Start game <span aria-hidden="true">→</span></button><button id="start-unscored" class="button button-outline" type="button" ${supported ? '' : 'disabled'}>Try without saving</button></div>
     <p id="pointer-message" class="notice" ${supported ? 'hidden' : ''}>You need a mouse or trackpad for Steady Ring. <a href="#/activities">Choose another game</a> if you do not have one.</p>
     <p id="setup-summary" class="setup-summary"></p>
