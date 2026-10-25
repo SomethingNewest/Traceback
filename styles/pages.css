@@ -1,0 +1,692 @@
+.home-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(220px, 0.8fr);
+  gap: 56px;
+  align-items: center;
+  padding-block: 20px 64px;
+}
+.home-intro h1 {
+  max-width: 18ch;
+}
+.home-intro .lead {
+  color: var(--muted);
+  margin-block: 24px;
+  max-width: 43ch;
+  font-size: 1.05rem;
+}
+.hero-note {
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.starting-point {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--primary);
+}
+.starting-point svg {
+  width: 100%;
+  height: auto;
+  max-height: 330px;
+  overflow: visible;
+}
+.section-heading {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.section-heading p {
+  color: var(--muted);
+  margin-top: 10px;
+}
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 30px;
+}
+.activity-top {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+.activity-symbol {
+  width: 92px;
+  height: 92px;
+  color: var(--primary);
+  padding: 4px;
+  flex: 0 0 92px;
+}
+.activity-symbol svg {
+  width: 100%;
+  height: 100%;
+}
+.activity-card p {
+  color: var(--muted);
+  margin-top: 12px;
+}
+.activity-title {
+  font-size: 1.4rem;
+}
+.activity-meta {
+  font-size: 0.82rem;
+  margin-bottom: 26px;
+}
+.activity-meta span {
+  display: block;
+  margin-top: 4px;
+}
+.activity-card .button {
+  margin-top: auto;
+  justify-content: space-between;
+  min-width: 220px;
+}
+.activity-card .availability {
+  font-size: 0.8rem;
+  margin-top: 14px;
+}
+.home-report {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-top: 36px;
+}
+.home-report h2 {
+  font-size: 1.3rem;
+}
+.home-report p {
+  margin-top: 10px;
+  color: var(--muted);
+}
+.activity-intro {
+  max-width: 860px;
+  margin-inline: auto;
+}
+.activity-ready {
+  max-width: 860px;
+  margin-inline: auto;
+  padding: 32px;
+}
+.ready-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: 32px;
+  align-items: center;
+}
+.ready-overview h2 {
+  margin-top: 22px;
+  font-size: 1.4rem;
+}
+.start-instruction {
+  margin-top: 14px;
+  font-size: 1.05rem;
+  max-width: 42ch;
+}
+.ready-stop {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.ready-illustration {
+  width: 150px;
+  height: 150px;
+  color: var(--primary);
+  padding: 10px;
+}
+.ready-illustration svg {
+  width: 100%;
+  height: 100%;
+}
+.consent-row {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+.start-actions {
+  margin-top: 26px;
+}
+.start-actions .button {
+  min-width: 172px;
+}
+.setup-summary {
+  margin-block: 24px 20px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.activity-ready details + details {
+  margin-top: 10px;
+}
+.activity-ready .notice {
+  margin-top: 24px;
+}
+.activity-ready details[open] {
+  padding-bottom: 16px;
+}
+.instruction-list {
+  max-width: 48ch;
+  margin-block: 0 20px;
+}
+.practice-panel {
+  max-width: 720px;
+  margin-inline: auto;
+  scroll-margin-top: 24px;
+}
+.practice-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.practice-toolbar h2 {
+  font-size: 1.7rem;
+}
+.practice-status {
+  min-height: 3.2em;
+  max-width: 58ch;
+}
+.practice-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  margin-block: 12px 20px;
+}
+.practice-timer {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.practice-surface {
+  width: min(480px, 100%);
+  aspect-ratio: 1;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  outline: 2px solid var(--control-border);
+  border-radius: 20px;
+  margin: 24px auto 20px;
+  color: var(--primary);
+  overflow: hidden;
+}
+.practice-surface[data-activity='trace'],
+.practice-surface[data-activity='aim'] {
+  touch-action: none;
+  user-select: none;
+}
+.practice-surface[data-active='false'] {
+  pointer-events: none;
+}
+.practice-surface > svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.trace-guide {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 14;
+}
+.trace-ink polyline {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.trace-marker {
+  fill: var(--primary);
+  stroke: var(--surface);
+  stroke-width: 7;
+}
+.trace-finish {
+  fill: var(--surface);
+  stroke: var(--primary);
+  stroke-width: 8;
+}
+.practice-surface text {
+  fill: var(--text);
+  font:
+    600 34px system-ui,
+    sans-serif;
+}
+.activity-target {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 4px solid var(--primary);
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 10px var(--tint);
+  display: grid;
+  place-items: center;
+  color: var(--on-primary);
+  font-size: 18px;
+  font-weight: 700;
+  user-select: none;
+  touch-action: manipulation;
+}
+.activity-target:active {
+  background: var(--tint);
+  color: var(--primary);
+}
+.drag-tile,
+.drop-zone {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  border-radius: 12px;
+}
+.drag-tile {
+  z-index: 1;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2px solid var(--primary);
+  cursor: grab;
+  touch-action: none;
+  gap: 0;
+  box-shadow: 0 5px 0 var(--tint);
+}
+.drag-tile:active,
+.drag-tile[data-dragging='true'] {
+  cursor: grabbing;
+  box-shadow: 0 7px 14px rgb(0 0 0 / 0.16);
+}
+.drag-tile svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  pointer-events: none;
+}
+.drag-tile span {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  pointer-events: none;
+}
+.drop-zone {
+  border: 3px dashed var(--primary);
+  background: var(--tint);
+  color: var(--primary);
+  text-align: center;
+}
+.drop-zone span {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.hold-circle {
+  border: 3px solid var(--primary);
+  border-radius: 50%;
+  background: var(--tint);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.hold-circle span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+.hold-circle[data-inside='true'] {
+  border-width: 4px;
+  box-shadow: inset 0 0 0 3px var(--surface);
+}
+.drop-zone[data-ready='true'] {
+  border-style: solid;
+  border-width: 4px;
+}
+.finish-button {
+  display: flex;
+  min-width: 160px;
+  margin: 20px auto;
+}
+#practice-feedback {
+  text-align: center;
+}
+#practice-end-actions {
+  margin-top: 24px;
+}
+.game-result {
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--primary);
+  border-radius: 16px;
+  background: var(--surface);
+  margin-top: 24px;
+}
+.result-label {
+  margin-bottom: 8px;
+}
+.result-score {
+  font-size: clamp(3.5rem, 10vw, 5rem);
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -0.06em;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+.result-explanation {
+  color: var(--muted);
+  margin-top: 16px;
+  max-width: 48ch;
+}
+.result-comparison {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+  margin: 24px 0 0;
+}
+.metric-grid div {
+  min-width: 0;
+}
+.metric-grid dt {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.metric-grid dd {
+  margin: 4px 0 0;
+  font-size: 1.25rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+.settings-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.settings-note h2 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+.settings-note p {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.prose h2 {
+  margin-top: 36px;
+  margin-bottom: 16px;
+}
+.prose h3 {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+.history-controls {
+  margin-bottom: 24px;
+}
+.history-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 20px;
+}
+.history-filters label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  font-weight: 600;
+}
+.history-filters select {
+  font-weight: 400;
+}
+.history-week-nav {
+  margin-top: 24px;
+}
+.history-summary {
+  margin-bottom: 24px;
+}
+.history-summary h2 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+}
+.history-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.85rem;
+}
+.history-table caption {
+  text-align: left;
+  padding: 20px;
+  font-weight: 650;
+}
+.history-table th {
+  background: var(--tint);
+  font-size: 0.78rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.history-table th,
+.history-table td {
+  padding: 16px 18px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+.history-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.history-table td {
+  font-variant-numeric: tabular-nums;
+}
+.history-table td small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.history-table details {
+  padding: 0;
+  border: 0;
+  min-width: 140px;
+}
+.history-table summary {
+  min-height: 36px;
+  padding-block: 0;
+}
+.history-detail-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+.history-detail-list div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+.history-detail-list dt {
+  font-weight: 600;
+}
+.history-detail-list dd {
+  margin: 0;
+  color: var(--muted);
+}
+.history-empty h2 {
+  margin-bottom: 14px;
+}
+.history-empty .actions {
+  margin-top: 24px;
+}
+.report-note {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  max-width: 65ch;
+}
+.report-actions {
+  margin-block: 24px;
+}
+@media (max-width: 760px) {
+  .home-intro {
+    grid-template-columns: minmax(0, 1fr) 180px;
+    gap: 24px;
+    padding-block: 12px 44px;
+  }
+  .starting-point svg {
+    max-height: 220px;
+  }
+  .activity-card {
+    padding: 24px;
+  }
+  .settings-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .history-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .home-intro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .starting-point {
+    display: none;
+  }
+  .activity-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .activity-top {
+    margin-bottom: 20px;
+  }
+  .activity-symbol {
+    width: 78px;
+    height: 78px;
+    flex-basis: 78px;
+  }
+  .activity-card .button {
+    width: 100%;
+  }
+  .home-report {
+    align-items: start;
+  }
+  .ready-overview {
+    grid-template-columns: minmax(0, 1fr) 76px;
+    gap: 14px;
+    align-items: start;
+  }
+  .ready-illustration {
+    width: 76px;
+    height: 76px;
+    padding: 0;
+    margin-top: 8px;
+  }
+  .activity-ready {
+    padding: 22px;
+  }
+  .ready-overview .badge {
+    max-width: 190px;
+  }
+  .start-actions {
+    align-items: stretch;
+  }
+  .start-actions .button {
+    flex: 1 1 200px;
+  }
+  .consent-row {
+    align-items: flex-start;
+  }
+  .consent-row input {
+    margin-top: 2px;
+  }
+  .practice-toolbar h2 {
+    font-size: 1.4rem;
+  }
+  .game-result {
+    padding: 22px;
+  }
+  .history-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .history-table th,
+  .history-table td {
+    padding: 14px;
+  }
+}
+@media (max-width: 380px) {
+  .ready-overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ready-illustration {
+    display: none;
+  }
+  .metric-grid {
+    gap: 16px;
+  }
+}
+.history-notes-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.history-controls > p:not(.form-status) {
+  margin-top: 20px;
+  font-size: 0.85rem;
+}
+.history-empty > .button {
+  margin-top: 24px;
+}
+.accuracy-explainer {
+  margin-bottom: 20px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.report-generated {
+  margin-top: 14px;
+  font-size: 0.8rem;
+}
+.ready-steps {
+  margin: 16px 0 0;
+  padding-left: 22px;
+}
+.ready-steps li {
+  padding-left: 4px;
+}

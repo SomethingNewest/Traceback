@@ -1,0 +1,30 @@
+.privacy-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-bottom: 20px;
+}
+
+.privacy-status-bar .storage-status {
+  flex: 1 1 280px;
+  margin-bottom: 0;
+}
+
+.privacy-share {
+  max-width: min(620px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+}
+
+.privacy-share p,
+.privacy-share .actions {
+  margin-top: 24px;
+}
+
+@media print {
+  .privacy-status-bar,
+  .privacy-share {
+    display: none;
+  }
+}

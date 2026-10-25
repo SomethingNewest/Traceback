@@ -1,0 +1,88 @@
+:root {
+  color-scheme: light !important;
+  --page: #fff !important;
+  --surface: #fff !important;
+  --tint: #fff !important;
+  --text: #000 !important;
+  --muted: #333 !important;
+  --primary: #000 !important;
+  --on-primary: #fff !important;
+  --border: #888 !important;
+  --control-border: #000 !important;
+  --text-scale: 1 !important;
+}
+body {
+  background: #fff;
+  color: #000;
+  font-size: 10pt;
+}
+.site-header,
+.site-footer,
+.storage-status,
+.skip-link,
+.actions,
+button,
+.history-controls,
+.report-actions,
+#announcer {
+  display: none !important;
+}
+.wrap {
+  width: 100%;
+}
+main {
+  padding: 0;
+}
+h1 {
+  font-size: 24pt;
+}
+h2 {
+  font-size: 15pt;
+}
+.page-intro {
+  margin-bottom: 18pt;
+}
+.card {
+  break-inside: avoid;
+  border-radius: 0;
+  padding: 14pt;
+}
+a {
+  color: #000;
+}
+.history-table-wrap {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+}
+.history-table {
+  font-size: 8pt;
+  table-layout: auto;
+}
+.history-table th,
+.history-table td {
+  padding: 8pt 6pt;
+  border-bottom: 1px solid #aaa;
+  overflow-wrap: anywhere;
+}
+.history-table th {
+  white-space: normal;
+}
+.history-table tr {
+  break-inside: avoid;
+}
+.history-table details {
+  display: none;
+}
+.history-summary {
+  margin-bottom: 14pt;
+}
+.report-note {
+  font-size: 8pt;
+}
+thead {
+  display: table-header-group;
+}
+@page {
+  margin: 15mm;
+}

@@ -1,0 +1,39 @@
+.practice-surface[data-activity='hold'] .hold-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.practice-surface[data-activity='tap'] {
+  touch-action: manipulation;
+  user-select: none;
+}
+.practice-surface[data-activity='tap'] .activity-target {
+  transition: none;
+}
+.trace-end-label rect,
+.trace-start-label rect {
+  fill: var(--surface);
+  stroke: var(--control-border);
+  stroke-width: 2;
+}
+.trace-end-label text,
+.trace-start-label text {
+  fill: var(--text);
+  font-weight: 750;
+}
+.trace-guide {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.trace-centerline {
+  fill: none;
+  stroke: var(--surface);
+  stroke-width: 2;
+  stroke-dasharray: 4 7;
+}
+@media (forced-colors: active) {
+  .trace-centerline {
+    stroke: Canvas;
+  }
+}

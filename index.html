@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-reduced-motion="true">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="TraceBack: track your game practice, see changes over time, and download weekly reports."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <title>TraceBack · Track your practice</title>
+    <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles/tokens.css" />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/components.css" />
+    <link rel="stylesheet" href="./styles/pages.css" />
+    <link rel="stylesheet" href="./styles/accessibility.css" />
+    <link rel="stylesheet" href="./styles/games-existing.css" />
+    <link rel="stylesheet" href="./styles/games-extra.css" />
+    <link rel="stylesheet" href="./styles/information.css" />
+    <link rel="stylesheet" href="./styles/landing.css" />
+    <link rel="stylesheet" href="./styles/results.css" />
+    <link rel="stylesheet" href="./styles/routines.css" />
+    <link rel="stylesheet" href="./styles/privacy.css" />
+    <link rel="stylesheet" href="./styles/print.css" media="print" />
+    <script type="module" src="./js/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="#/home" aria-label="TraceBack home">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 20c-4-6-12-3-12 3 0 9 15 12 23 2C40 13 27 1 15 7" />
+        </svg>
+        TraceBack<span class="brand-dot">.</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#/home" data-nav="home">Home</a>
+        <a href="#/activities" data-nav="activities">Games</a>
+        <a href="#/routines" data-nav="routines">Routines</a>
+        <a href="#/progress" data-nav="progress">Results</a>
+        <a href="#/report" data-nav="report">Weekly report</a>
+        <a href="#/information" data-nav="information">Information</a>
+      </nav>
+      <a class="button button-small button-outline accessibility-link" href="#/settings"
+        ><span aria-hidden="true">Aa</span> Settings</a
+      >
+    </header>
+    <div class="wrap"><p id="storage-status" class="storage-status" role="status"></p></div>
+    <main id="main" class="wrap" tabindex="-1"></main>
+    <footer class="site-footer wrap">
+      <div>
+        <a class="footer-brand" href="#/home">TraceBack.</a>
+        <p>Game scores do not measure recovery.</p>
+      </div>
+      <a href="#/about">About & privacy <span aria-hidden="true">↗</span></a>
+    </footer>
+    <div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+    <noscript><p class="wrap">Turn on JavaScript to play games and save results.</p></noscript>
+  </body>
+</html>

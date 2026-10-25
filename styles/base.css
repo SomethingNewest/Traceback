@@ -1,0 +1,262 @@
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+html {
+  font-size: calc(18px * var(--text-scale));
+  scroll-padding: 24px;
+}
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  line-height: var(--leading);
+}
+a {
+  color: var(--primary);
+  text-underline-offset: 4px;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+select,
+input[type='checkbox'] {
+  cursor: pointer;
+}
+button {
+  color: inherit;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+h1 {
+  font-size: clamp(2rem, 4.2vw, 3.35rem);
+  max-width: 22ch;
+}
+h2 {
+  font-size: 1.6rem;
+}
+h3 {
+  font-size: 1.2rem;
+}
+p + p {
+  margin-top: 16px;
+}
+ul,
+ol {
+  padding-left: 24px;
+}
+li + li {
+  margin-top: 10px;
+}
+svg {
+  display: block;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+.wrap {
+  width: min(1120px, calc(100% - 64px));
+  margin-inline: auto;
+}
+main {
+  min-height: 60vh;
+  padding-block: 40px 72px;
+}
+.muted {
+  color: var(--muted);
+}
+.small-copy {
+  font-size: 0.85rem;
+}
+.eyebrow {
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.reading {
+  max-width: 64ch;
+}
+.page-intro {
+  margin-bottom: 32px;
+}
+.page-intro p:not(.eyebrow, .back-link) {
+  margin-top: 16px;
+  color: var(--muted);
+  max-width: 58ch;
+}
+.back-link {
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+.back-link a {
+  text-decoration: none;
+}
+.back-link a:hover {
+  text-decoration: underline;
+}
+.stack > * + * {
+  margin-top: 24px;
+}
+.site-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding-block: 22px;
+  border-bottom: 1px solid var(--border);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 750;
+  letter-spacing: -0.065em;
+  min-height: 48px;
+}
+.brand svg {
+  width: 37px;
+  height: 37px;
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+}
+.brand-dot {
+  color: var(--primary);
+  margin-left: -7px;
+}
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  padding: 10px 16px;
+  min-height: 48px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+nav a[aria-current='page'] {
+  color: var(--primary);
+  background: var(--tint);
+  font-weight: 700;
+}
+nav a:hover {
+  text-decoration: underline;
+}
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-block: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.footer-brand {
+  font-size: 1rem;
+  font-weight: 750;
+  color: var(--text);
+  text-decoration: none;
+}
+.site-footer p {
+  margin-top: 8px;
+}
+.site-footer > a {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.storage-status {
+  color: var(--muted);
+  font-size: 0.78rem;
+  padding-top: 16px;
+}
+.storage-status:empty {
+  display: none;
+}
+@media (max-width: 760px) {
+  .wrap {
+    width: calc(100% - 32px);
+  }
+  .site-header {
+    padding-block: 16px;
+    gap: 12px;
+  }
+  .site-header nav {
+    order: 3;
+    flex-basis: 100%;
+  }
+  nav a {
+    flex: 1;
+    text-align: center;
+    padding: 10px 8px;
+  }
+  .accessibility-link {
+    font-size: 0.78rem;
+  }
+  main {
+    padding-block: 28px 48px;
+  }
+  .site-footer {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+@media (max-width: 380px) {
+  .brand {
+    font-size: 1.25rem;
+  }
+  .brand svg {
+    width: 28px;
+  }
+  .accessibility-link {
+    padding-inline: 12px !important;
+  }
+}

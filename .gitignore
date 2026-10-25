@@ -1,0 +1,18 @@
+node_modules/
+work/
+outputs/
+*.log
+.env
+.env.*
+!.env.example
+traceback-backup-*.json
+traceback-result-*.json
+traceback-*.csv
+traceback-week-*.html
+traceback-results-*.html
+traceback-week-*.pdf
+traceback-results-*.pdf
+TraceBack Weekly report*.pdf
+TraceBack Results report*.pdf
+.DS_Store
+traceback-protected-backup-*.json
